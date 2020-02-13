@@ -6,16 +6,10 @@ import (
 	"syscall"
 )
 
-func Setup() {
-	newroot := "/rootfs"
-	pivotRoot(newroot)
-	mountProc(newroot)
-}
-
 func pivotRoot(newroot string) error {
 	putold := filepath.Join(newroot, "/.pivot_root")
 
-	if err := syscall.Mount(newroot, newroot, "", syscall.MS_BIND|syscall.MS_REC); err != nil {
+	if err := syscall.Mount(newroot, newroot, "", syscall.MS_BIND|syscall.MS_REC, ""); err != nil {
 		return err
 	}
 
@@ -23,7 +17,7 @@ func pivotRoot(newroot string) error {
 		return err
 	}
 
-	if err := syscall.PivotRoot(newroot, putold); err !=  nil {
+	if err := syscall.PivotRoot(newroot, putold); err != nil {
 		return err
 	}
 
@@ -32,7 +26,7 @@ func pivotRoot(newroot string) error {
 	}
 
 	putold = "/.pivot_root"
-	err := syscall.Unmount(putold, syscall.MNT_DETACH); err != nil {
+	if err := syscall.Unmount(putold, syscall.MNT_DETACH); err != nil {
 		return err
 	}
 

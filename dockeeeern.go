@@ -14,7 +14,14 @@ func Run() {
 	clone()
 }
 
-// clone: プロセスのcloneをし,その子プロセスにおいて各Namespaceの分離、UID/GIDのマッピング、必要なファイルシステムのマウントなどを行う
+func Setup() {
+	newroot := "/rootfs"
+	pivotRoot(newroot)
+	mountProc(newroot)
+	cgroup()
+}
+
+// clone: clone プロセスのcloneをし,その子プロセスにおいて各Namespaceの分離、UID/GIDのマッピング、必要なファイルシステムのマウントなどを行う
 func clone() {
 	cmd := exec.Command("/bin/sh")
 	cmd.SysProcAttr = &unix.SysProcAttr{
