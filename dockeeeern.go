@@ -18,25 +18,25 @@ func Run() {
 func clone() {
 	cmd := exec.Command("/bin/sh")
 	cmd.SysProcAttr = &unix.SysProcAttr{
-		Cloneflags: unix.CLONE_NEWIPC | 
-			unix.CLONE_NEWNET | 
+		Cloneflags: unix.CLONE_NEWIPC |
+			unix.CLONE_NEWNET |
 			unix.CLONE_NEWNS |
-			unix.CLONE_NEWPID | 
-			unix.CLONE_NEWUSER | 
+			unix.CLONE_NEWPID |
+			unix.CLONE_NEWUSER |
 			unix.CLONE_NEWUTS,
 		UidMappings: []syscall.SysProcIDMap{
 			{
 				ContainerID: 0,
-				HostID: os.Getuid(),
-				Size: 1,
-			}
+				HostID:      os.Getuid(),
+				Size:        1,
+			},
 		},
 		GidMappings: []syscall.SysProcIDMap{
 			{
 				ContainerID: 0,
-				HostID: os.Getgid(),
-				Size: 1,
-			}
+				HostID:      os.Getgid(),
+				Size:        1,
+			},
 		},
 	}
 
