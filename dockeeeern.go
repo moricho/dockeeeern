@@ -47,6 +47,7 @@ func clone() {
 		},
 	}
 
+	cmd.Env = []string{"PS1=-[namespace-process]-# "}
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
