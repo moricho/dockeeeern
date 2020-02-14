@@ -21,8 +21,11 @@ func Setup() {
 	cgroup()
 }
 
+type Container struct {
+}
+
 // clone: clone プロセスのcloneをし,その子プロセスにおいて各Namespaceの分離、UID/GIDのマッピング、必要なファイルシステムのマウントなどを行う
-func clone() {
+func (c *Container) Create() {
 	cmd := exec.Command("/bin/sh")
 	cmd.SysProcAttr = &unix.SysProcAttr{
 		Cloneflags: unix.CLONE_NEWIPC |

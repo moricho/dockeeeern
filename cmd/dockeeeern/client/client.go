@@ -1,27 +1,35 @@
 package client
 
 import (
+	"encoding/json"
+	"os"
+
+	"github.com/moricho/dockeeeern"
 	"github.com/spf13/cobra"
 )
 
 var (
-	// Used for flags.
-	cfgFile     string
-	userLicense string
-
 	c Client
 )
 
+var encoder = json.NewEncoder(os.Stdout)
+
 type Client struct {
 	*cobra.Command
+	container Container
+}
+
+type Container interface {
+	Create()
 }
 
 func New() *Client {
-	setup()
+	setupCmd()
+	c.container = &dockeeeern.Container{}
 	return &c
 }
 
-func setup() {
+func setupCmd() {
 	rootCmd := &cobra.Command{
 		Use:   "dockeeeern",
 		Short: "",
@@ -29,8 +37,8 @@ func setup() {
 	}
 
 	c = Client{
-		rootCmd,
+		Command: rootCmd,
 	}
 
-	// c.AddCommand(createCmd)
+	c.AddCommand(createCmd)
 }
