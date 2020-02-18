@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/moricho/dockeeeern"
+	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/spf13/cobra"
 )
 
@@ -20,12 +20,15 @@ type Client struct {
 }
 
 type Container interface {
-	Create()
+	Create(id string, args []string) error
+	State(id string) (*specs.State, error)
+	Start(id string) error
+	Delete(id string) error
 }
 
-func New() *Client {
+func New(container Container) *Client {
 	setupCmd()
-	c.container = &dockeeeern.Container{}
+	c.container = container
 	return &c
 }
 
